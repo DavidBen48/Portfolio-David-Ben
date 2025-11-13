@@ -46,23 +46,34 @@ ${RESUME_DATA}
 
 
 let chat: Chat | null = null;
+let isInitialized = false;
 
-export const initializeChat = (): Chat => {
+export const initializeChat = (): Chat | null => {
+  if (isInitialized) return chat;
+
+  isInitialized = true; // Attempt initialization only once.
   if (!process.env.API_KEY) {
-    throw new Error("API_KEY environment variable not set");
+    console.warn("API_KEY environment variable not set. Chatbot will be disabled.");
+    return null;
   }
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-  chat = ai.chats.create({
-    model: 'gemini-2.5-flash',
-    config: {
-      systemInstruction: SYSTEM_INSTRUCTION,
-    },
-  });
-  return chat;
+  try {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    chat = ai.chats.create({
+      model: 'gemini-2.5-flash',
+      config: {
+        systemInstruction: SYSTEM_INSTRUCTION,
+      },
+    });
+    return chat;
+  } catch (error) {
+    console.error("Failed to initialize Gemini chat:", error);
+    chat = null;
+    return null;
+  }
 };
 
-export const getChat = (): Chat => {
-  if (!chat) {
+export const getChat = (): Chat | null => {
+  if (!isInitialized) {
     return initializeChat();
   }
   return chat;

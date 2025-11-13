@@ -11,19 +11,33 @@ const SectionTitle: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 );
 
 const Chatbot: React.FC = () => {
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      author: MessageAuthor.BOT,
-      text: 'Olá! Sou Ben.AI, o assistente virtual de David. Como posso ajudar a saber mais sobre ele?',
-    },
-  ]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isChatAvailable, setIsChatAvailable] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const chatRef = useRef<Chat | null>(null);
 
   useEffect(() => {
-    chatRef.current = getChat();
+    const chatInstance = getChat();
+    if (chatInstance) {
+      chatRef.current = chatInstance;
+      setIsChatAvailable(true);
+      setMessages([
+        {
+          author: MessageAuthor.BOT,
+          text: 'Olá! Sou Ben.AI, o assistente virtual de David. Como posso ajudar a saber mais sobre ele?',
+        },
+      ]);
+    } else {
+      setIsChatAvailable(false);
+      setMessages([
+        {
+          author: MessageAuthor.BOT,
+          text: 'O assistente de IA não está disponível no momento. Por favor, explore o restante do portfólio.'
+        }
+      ]);
+    }
   }, []);
 
   useEffect(() => {
@@ -34,7 +48,7 @@ const Chatbot: React.FC = () => {
 
   const handleSendMessage = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim() || isLoading) return;
+    if (!input.trim() || isLoading || !isChatAvailable) return;
 
     const userMessage: ChatMessage = { author: MessageAuthor.USER, text: input };
     setMessages((prev) => [...prev, userMessage]);
@@ -87,7 +101,7 @@ const Chatbot: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [input, isLoading]);
+  }, [input, isLoading, isChatAvailable]);
 
   return (
     <section id="ben-ai" className="py-20">
@@ -134,13 +148,13 @@ const Chatbot: React.FC = () => {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Pergunte sobre minhas habilidades..."
-            className="flex-grow bg-gray-800 text-white placeholder-gray-500 px-4 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500"
-            disabled={isLoading}
+            placeholder={isChatAvailable ? "Pergunte sobre minhas habilidades..." : "Chat indisponível"}
+            className="flex-grow bg-gray-800 text-white placeholder-gray-500 px-4 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500 disabled:bg-gray-700"
+            disabled={isLoading || !isChatAvailable}
           />
           <button
             type="submit"
-            disabled={isLoading || !input.trim()}
+            disabled={isLoading || !input.trim() || !isChatAvailable}
             className="bg-green-600 text-white px-6 py-2 rounded-r-md hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors"
           >
             {isLoading ? '...' : 'Enviar'}
