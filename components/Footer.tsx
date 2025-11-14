@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
             href="https://wa.me/5521994808526"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-400 hover:text-green-400 transition-colors"
+            className="text-gray-400 hover:text-green-400 transition-all duration-300 transform hover:scale-125"
             aria-label="WhatsApp"
           >
             <WhatsAppIcon />
@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
             href="https://www.instagram.com/davidben_sax"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-400 hover:text-green-400 transition-colors"
+            className="text-gray-400 hover:text-green-400 transition-all duration-300 transform hover:scale-125"
             aria-label="Instagram"
           >
            <InstagramIcon />

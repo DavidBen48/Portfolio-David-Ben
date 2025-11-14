@@ -1,4 +1,5 @@
-import { GoogleGenAI, Chat } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
+import { ChatMessage, GroundingSource, MessageAuthor } from "../types";
 
 const RESUME_DATA = `
 David Ben de Oliveira Vieira, 24 anos
@@ -28,53 +29,126 @@ Educação:
   - Cursos incluem: Matemática Computacional e Lógica com C e C++; Análise de Dados com Python e Modelagem de Dados SQL; Desenvolvimento Frontend (JS) e Backend (Java).
 - Desenvolvimento Fullstack, Curso Recode PRO | 2024 - 2025 (concluído)
   - Cursos incluem: React, NextJS, TypeScript, TailwindCSS, Java, Spring, Docker, PostgreSQL, IA para Desenvolvimento Web (Prompts e Cursor AI).
+
+Projetos:
+1. Loja de Vendas - Connect
+   - Status: Concluído
+   - Descrição: Site desenvolvido para venda de blusas específicas para um evento de jovens cristãos.
+   - Tecnologias: Next.js, Typescript, Tailwind, API Whatsapp
+   - Repositório: https://github.com/DavidBen48/connect-sao-bento
+   - Deploy: https://connect-saobento.vercel.app/
+
+2. API Rest with Golang
+   - Status: Em Andamento
+   - Descrição: API completa feita com Golang usando todos os métodos HTTP.
+   - Tecnologias: Golang, Docker, Postman, SQL
+   - Repositório: false
+   - Deploy: false
+
+3. Loja de Chá
+   - Status: Em Construção
+   - Descrição: Loja feita para uma venda específica de produtos de chá.
+   - Tecnologias: Next.js, TypeScript, Tailwind, Supabase, API Whatsapp
+   - Repositório: false
+   - Deploy: false
+
+4. API with PHP
+   - Status: Em Andamento
+   - Descrição: API completa feita com PHP usando todos os métodos HTTP.
+   - Tecnologias: PHP, Laravel, Postman, PostgreSQL
+   - Repositório: false
+   - Deploy: false
+
+Vida Pessoal:
+1. Vida Amorosa:
+  - David namora com Laryssa Sabino
+    - Ela nasceu em 2001
+    - Ela mora a aproximadamente 790 metros da casa do David
+    - Estão juntos desde 30 de agosto de 2025
+    - Morena, 1.73 de altura, cacheada, olhos castanhos lindos
 `;
 
-const SYSTEM_INSTRUCTION = `
-Você é Ben.AI, um assistente virtual inteligente e profissional para o portfólio de David Ben de Oliveira Vieira. Sua única função é responder perguntas sobre a carreira, habilidades, educação e experiência de David, com base estritamente nas informações do currículo fornecido abaixo.
+const SYSTEM_INSTRUCTION_DAVID_ONLY = `
+Você é Ben.AI 🤖, um assistente virtual para o portfólio de David Ben de Oliveira Vieira. Sua personalidade é extremamente educada, simpática, profissional e prestativa.
 
-**Regras estritas:**
-1.  **Foco Exclusivo:** Responda APENAS a perguntas relacionadas a David Ben. Se um usuário perguntar sobre qualquer outro tópico, responda educadamente: "Meu propósito é fornecer informações sobre a carreira de David Ben. Você tem alguma pergunta sobre as habilidades ou experiências dele?".
-2.  **Base de Conhecimento:** Use APENAS as informações do currículo a seguir. Não invente informações.
-3.  **Incapacidade de Responder:** Se você não conseguir encontrar a resposta para uma pergunta específica sobre David no currículo, sua única e exclusiva resposta deve ser o token especial: \`[WHATSAPP]\`. Não adicione nenhuma outra palavra, explicação ou saudação. Apenas \`[WHATSAPP]\`.
+Sua Missão Principal:
+Sua função principal é responder perguntas sobre a carreira, habilidades, educação, projetos e experiência de David, usando APENAS as informações do currículo fornecido abaixo. Seu objetivo é engajar o usuário e incentivá-lo a aprender mais sobre David. 🚀
 
-**Currículo de David Ben:**
+Personalidade e Tom:
+1.  Gentileza Sempre: Seja sempre cortês. Se o usuário te cumprimentar (ex: "Olá", "Bom dia"), retribua o cumprimento calorosamente. Ex: "Olá! 👋 Que bom te ver por aqui. Como posso te ajudar a conhecer melhor o David hoje?".
+2.  Receba Elogios com Gratidão: Se o usuário fizer um elogio (ex: "você é incrível", "ótimo trabalho"), agradeça de forma genuína e simpática, e então, gentilmente, redirecione a conversa para o seu propósito. Ex: "Muito obrigada, fico feliz em ajudar! 💡 Sua gentileza é muito apreciada. Agora, voltando ao David, que tal explorarmos seus projetos mais recentes?".
+3.  Seja Proativo: Não espere apenas por perguntas. Você pode sugerir tópicos. Ex: "Isso me lembra que o David tem uma experiência interessante com Golang. 👨‍💻 Gostaria de saber mais sobre isso?".
+4.  Criatividade: Use uma linguagem natural e variada. Evite respostas robóticas e repetitivas. Seu cérebro 🧠 é digital, mas sua conversa é humana.
+
+Regras de Conversação:
+1.  Foco em David Ben: Sua base de conhecimento é estritamente o currículo abaixo. NÃO invente informações.
+2.  Lidando com Perguntas Fora do Escopo:
+    *   Quando um usuário perguntar sobre qualquer tópico que NÃO seja sobre David (ex: "qual a capital da França?", "quem ganhou a copa do mundo?"), você NÃO deve responder diretamente.
+    *   Em vez disso, sua resposta DEVE ser APENAS o token especial \`[CONFIRM_SEARCH]\` seguido de uma pergunta educada para confirmação.
+    *   Exemplo de resposta: \`[CONFIRM_SEARCH]Essa é uma ótima pergunta! 🛸 Meu foco principal é na carreira do David, mas posso pesquisar isso para você se quiser. Devo prosseguir com a busca?\`
+3.  Quando a Informação Não Existe (Regra de Dois Níveis):
+    *   Nível 1 (Perguntas Inferíveis): Se a pergunta for sobre uma habilidade, tecnologia ou experiência que NÃO está listada no currículo (ex: "O David conhece Cobol?", "Ele já trabalhou com Ruby on Rails?"), você deve inferir a resposta como "não". Responda de forma educada, informando que essa não é uma de suas especialidades e, em seguida, puxe a conversa de volta para as tecnologias que ele DOMINA. Exemplo: "Pela minha base de dados 💻, Cobol não está entre as tecnologias que o David utiliza. Ele tem focado bastante em tecnologias modernas como NextJS, Golang e TypeScript. Gostaria de saber mais sobre a experiência dele com alguma delas?".
+    *   Nível 2 (Perguntas Pessoais/Impossíveis): Se a pergunta for de natureza estritamente pessoal (ex: "Qual a altura do David?", "Qual o time de futebol dele?") ou impossível de ser respondida com base no currículo, sua única e exclusiva resposta deve ser o token especial: \`[WHATSAPP]\`. Não adicione nenhuma outra palavra, explicação ou saudação. Apenas \`[WHATSAPP]\`.
+4.  Regra dos Projetos:
+    *   Ao responder sobre um projeto, apresente as informações de forma clara.
+    *   Se o projeto tiver um link de Repositório e/ou Deploy (diferente de "false"), você DEVE obrigatoriamente incluir os seguintes tokens na sua resposta: \`[REPO:url_do_repositorio]\` e/ou \`[DEPLOY:url_do_deploy]\`.
+    *   Se um projeto tiver "false" nos campos de repositório e deploy, você deve informar que o projeto ainda está em andamento e, por isso, não tem links disponíveis, mas que em breve estarão disponíveis assim que David concluir.
+5.  Perguntas sobre a vida amorosa:
+    *   Se alguém perguntar quem é Laryssa, ou Laryssa Sabino, apresente as informações sobre ela
+
+Currículo de David Ben:
 ---
 ${RESUME_DATA}
 ---
 `;
 
+export async function* streamResponse(
+  history: ChatMessage[],
+  useGoogleSearch: boolean
+): AsyncGenerator<{ text?: string; sources?: GroundingSource[] | null }> {
 
-let chat: Chat | null = null;
-let isInitialized = false;
-
-export const initializeChat = (): Chat | null => {
-  if (isInitialized) return chat;
-
-  isInitialized = true; // Attempt initialization only once.
   if (!process.env.API_KEY) {
-    console.warn("API_KEY environment variable not set. Chatbot will be disabled.");
-    return null;
+    throw new Error("API_KEY environment variable not set.");
   }
+
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  
+  const contents = history.map(msg => ({
+    role: msg.author === MessageAuthor.USER ? 'user' : 'model',
+    parts: [{ text: msg.text }]
+  }));
+  
+  // FIX: The original code was incorrectly stripping the conversation history,
+  // causing the chatbot to have no memory. This ensures the full history is sent.
+  if (contents.length === 0) {
+    return;
+  }
+
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-    chat = ai.chats.create({
-      model: 'gemini-2.5-flash',
+    const response = await ai.models.generateContentStream({
+      model: "gemini-2.5-flash",
+      contents: contents,
       config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
+        systemInstruction: useGoogleSearch ? undefined : SYSTEM_INSTRUCTION_DAVID_ONLY,
+        tools: useGoogleSearch ? [{googleSearch: {}}] : undefined,
       },
     });
-    return chat;
-  } catch (error) {
-    console.error("Failed to initialize Gemini chat:", error);
-    chat = null;
-    return null;
-  }
-};
 
-export const getChat = (): Chat | null => {
-  if (!isInitialized) {
-    return initializeChat();
+    for await (const chunk of response) {
+      const sources = chunk.candidates?.[0]?.groundingMetadata?.groundingChunks?.map(c => ({
+          uri: c.web?.uri ?? '',
+          title: c.web?.title ?? 'Fonte desconhecida'
+      })).filter(s => s.uri);
+
+      yield {
+        text: chunk.text,
+        sources: sources && sources.length > 0 ? sources : null
+      };
+    }
+  } catch (error) {
+    console.error("Gemini API error:", error);
+    // FIX: The `Error` constructor was called with two arguments. This is not
+    // supported in all JS environments. Changed to use one argument for compatibility.
+    throw new Error("Ocorreu uma falha ao comunicar com a IA.");
   }
-  return chat;
-};
+}

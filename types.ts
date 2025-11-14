@@ -3,10 +3,16 @@ export enum MessageAuthor {
   BOT = 'bot',
 }
 
+export interface GroundingSource {
+  uri: string;
+  title: string;
+}
+
 export interface ChatMessage {
   author: MessageAuthor;
   text: string;
   isWhatsappButton?: boolean;
+  sources?: GroundingSource[] | null;
 }
 
 export enum ProjectStatus {

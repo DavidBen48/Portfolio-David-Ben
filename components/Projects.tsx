@@ -128,26 +128,28 @@ const Projects: React.FC = () => {
     <section id="projects" className="py-20">
       <SectionTitle>Projetos</SectionTitle>
       
-      <div className="flex justify-center flex-wrap gap-4 mb-12">
-        {filterOptions.map(option => (
-            <button
-                key={option}
-                onClick={() => setActiveFilter(option)}
-                className={`px-4 py-2 text-sm font-medium rounded-md transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 ${
-                activeFilter === option
-                    ? 'bg-green-600 text-white'
-                    : 'bg-gray-800 text-green-400 hover:bg-green-700 hover:text-white'
-                }`}
-            >
-                {option === 'All' ? 'Todos' : option}
-            </button>
-        ))}
-      </div>
+      <div className="max-w-7xl mx-auto p-8 md:p-12">
+        <div className="flex justify-center flex-wrap gap-4 mb-12">
+            {filterOptions.map(option => (
+                <button
+                    key={option}
+                    onClick={() => setActiveFilter(option)}
+                    className={`px-4 py-2 text-sm font-medium rounded-md transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 ${
+                    activeFilter === option
+                        ? 'bg-green-600 text-white'
+                        : 'bg-gray-800 text-green-400 hover:bg-green-700 hover:text-white'
+                    }`}
+                >
+                    {option === 'All' ? 'Todos' : option}
+                </button>
+            ))}
+        </div>
 
-      <div className="grid md:grid-cols-2 gap-8">
-        {filteredProjects.map((project) => (
-          <ProjectCard key={project.title} project={project} />
-        ))}
+        <div className="grid md:grid-cols-2 gap-8">
+            {filteredProjects.map((project) => (
+            <ProjectCard key={project.title} project={project} />
+            ))}
+        </div>
       </div>
     </section>
   );

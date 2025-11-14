@@ -62,44 +62,46 @@ const ExperienceTimeline: React.FC = () => {
     <section id="experience" className="py-20">
       <SectionTitle>Educação & Experiência</SectionTitle>
       <div className="container mx-auto px-4">
-        <div className="relative">
-          {/* Vertical line */}
-          <div className="absolute top-0 h-full w-0.5 bg-green-700 bg-opacity-30 left-6 md:left-1/2 md:-translate-x-1/2"></div>
-          
-          {timelineData.map((item, index) => {
-            const isLeftOnDesktop = index % 2 !== 0;
-            const isEducation = item.type === TimelineItemType.EDUCATION;
+        <div className="p-8 md:py-12 md:px-0">
+            <div className="relative">
+            {/* Vertical line */}
+            <div className="absolute top-0 h-full w-0.5 bg-green-700 bg-opacity-30 left-6 md:left-1/2 md:-translate-x-1/2"></div>
             
-            return (
-              <div key={index} className={`mb-10 md:mb-8 flex md:justify-between w-full items-center ${isLeftOnDesktop ? 'md:flex-row-reverse' : ''}`}>
-                {/* Card Container */}
-                <div className="w-full md:w-5/12">
-                   <div className="ml-12 md:ml-0">
-                      <div className="relative p-6 rounded-lg shadow-lg border border-green-800 bg-gray-900 bg-opacity-70 backdrop-blur-sm">
-                         {/* Arrow */}
-                         <div className={`hidden md:block absolute w-4 h-4 bg-gray-900 border-green-800 transform rotate-45 top-8 -translate-y-1/2
-                                        ${isLeftOnDesktop ? 'right-[-8px] border-t-2 border-r-2' : 'left-[-8px] border-b-2 border-l-2'}`}>
-                         </div>
-                         
-                         <h3 className="mb-2 font-bold text-white text-xl">{item.title}</h3>
-                         <p className="text-sm font-medium leading-snug tracking-wide text-green-400">{item.institution} | {item.period}</p>
-                         <ul className="list-disc list-inside mt-3 text-gray-300 space-y-1 text-left">
-                             {item.description.map((desc, i) => <li key={i}>{desc}</li>)}
-                         </ul>
-                      </div>
-                   </div>
+            {timelineData.map((item, index) => {
+                const isLeftOnDesktop = index % 2 !== 0;
+                const isEducation = item.type === TimelineItemType.EDUCATION;
+                
+                return (
+                <div key={index} className={`mb-10 md:mb-8 flex md:justify-between w-full items-center ${isLeftOnDesktop ? 'md:flex-row-reverse' : ''}`}>
+                    {/* Card Container */}
+                    <div className="w-full md:w-5/12">
+                    <div className="ml-12 md:ml-0 md:px-4">
+                        <div className="relative p-6 rounded-lg shadow-lg border border-green-800 bg-gray-900 bg-opacity-70 backdrop-blur-sm">
+                            {/* Arrow */}
+                            <div className={`hidden md:block absolute w-4 h-4 bg-gray-900 border-green-800 transform rotate-45 top-8 -translate-y-1/2
+                                            ${isLeftOnDesktop ? 'right-[-8px] border-t-2 border-r-2' : 'left-[-8px] border-b-2 border-l-2'}`}>
+                            </div>
+                            
+                            <h3 className="mb-2 font-bold text-white text-xl">{item.title}</h3>
+                            <p className="text-sm font-medium leading-snug tracking-wide text-green-400">{item.institution} | {item.period}</p>
+                            <ul className="list-disc list-inside mt-3 text-gray-300 space-y-1 text-left">
+                                {item.description.map((desc, i) => <li key={i}>{desc}</li>)}
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+
+                    {/* Dot */}
+                    <div className="z-10 flex items-center justify-center w-12 h-12 rounded-full bg-green-500 absolute left-6 -translate-x-1/2 md:relative md:left-auto md:mx-auto">
+                        {isEducation ? <GraduationCapIcon /> : <BriefcaseIcon />}
+                    </div>
+
+                    {/* Spacer for desktop layout */}
+                    <div className="hidden md:block w-5/12"></div>
                 </div>
-
-                {/* Dot */}
-                 <div className="z-10 flex items-center justify-center w-12 h-12 rounded-full bg-green-500 absolute left-6 -translate-x-1/2 md:relative md:left-auto md:mx-auto">
-                    {isEducation ? <GraduationCapIcon /> : <BriefcaseIcon />}
-                 </div>
-
-                {/* Spacer for desktop layout */}
-                <div className="hidden md:block w-5/12"></div>
-              </div>
-            );
-          })}
+                );
+            })}
+            </div>
         </div>
       </div>
     </section>

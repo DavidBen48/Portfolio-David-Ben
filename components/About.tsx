@@ -10,7 +10,7 @@ const About: React.FC = () => {
   return (
     <section id="about" className="py-20">
       <SectionTitle>Sobre Mim</SectionTitle>
-      <div className="max-w-4xl mx-auto text-center text-lg md:text-xl text-gray-300 space-y-6">
+      <div className="max-w-5xl mx-auto text-center text-lg md:text-xl text-gray-300 space-y-6 p-8 md:p-12">
         <p>
           Desenvolvedor com <span className="text-green-400 font-semibold">1 ano e 6 meses de estudo</span>, buscando minha primeira oportunidade
           para <span className="text-white font-bold">estágio/júnior</span> em Desenvolvimento de Software, Sistemas ou FullStack.
