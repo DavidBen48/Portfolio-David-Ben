@@ -77,28 +77,20 @@ const Chatbot: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isChatAvailable, setIsChatAvailable] = useState(false);
+  const [isChatAvailable, setIsChatAvailable] = useState(true);
   const [pendingConfirmation, setPendingConfirmation] = useState<{ originalQuestion: string } | null>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (process.env.API_KEY) {
-      setIsChatAvailable(true);
-      setMessages([
-        {
-          author: MessageAuthor.BOT,
-          text: 'Olá! Sou Ben.AI, o assistente virtual de David. Como posso ajudar a saber mais sobre ele?',
-        },
-      ]);
-    } else {
-      setIsChatAvailable(false);
-      setMessages([
-        {
-          author: MessageAuthor.BOT,
-          text: 'O assistente de IA não está disponível no momento. Por favor, explore o restante do portfólio.'
-        }
-      ]);
-    }
+    // Removed the initial API Key check to ensure the chat is available on Vercel.
+    // The UI will start optimistically. Any API key errors will be caught and displayed
+    // upon the first message submission.
+    setMessages([
+      {
+        author: MessageAuthor.BOT,
+        text: 'Olá! Sou Ben.AI, o assistente virtual de David. Como posso ajudar a saber mais sobre ele?',
+      },
+    ]);
   }, []);
 
   useEffect(() => {
