@@ -12,11 +12,13 @@ const About: React.FC = () => {
       <SectionTitle>Sobre Mim</SectionTitle>
       <div className="max-w-5xl mx-auto text-center text-lg md:text-xl text-gray-300 space-y-6 p-8 md:p-12">
         <p>
-          Desenvolvedor com <span className="text-green-400 font-semibold">1 ano e 6 meses de estudo</span>, buscando minha primeira oportunidade
-          para <span className="text-white font-bold">estágio/júnior</span> em Desenvolvimento de Software, Sistemas ou FullStack.
+          Com <span className="text-green-400 font-semibold">1 ano e 6 meses de estudo</span> focado e agora atuando como <span className="text-white font-bold">Desenvolvedor e Programador</span> na Suporte Verde, minha paixão é criar soluções robustas e eficientes.
         </p>
         <p>
-          Minha jornada, embora com experiência profissional focada em dados, é impulsionada pela paixão em construir soluções tecnológicas completas e inovadoras, com um forte interesse na <span className="text-green-400 font-semibold">integração de Inteligência Artificial</span> no ciclo de desenvolvimento.
+          No <span className="text-green-400 font-semibold">Frontend</span>, possuo conhecimento intermediário e utilizo <span className="text-white font-bold">Inteligência Artificial</span> de forma estratégica, criando prompts eficientes para acelerar o desenvolvimento e otimizar a interface do usuário.
+        </p>
+        <p>
+          No <span className="text-green-400 font-semibold">Backend</span>, meu conhecimento também é intermediário, mas com uma abordagem diferente: construo tudo <span className="text-white font-bold">manualmente</span>. Tenho uma lógica de programação aguçada que me permite desenvolver APIs e sistemas seguros e performáticos sem depender de IA, garantindo um código limpo e sob total controle.
         </p>
       </div>
     </section>

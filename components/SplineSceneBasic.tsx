@@ -7,7 +7,7 @@ export function SplineSceneBasic() {
   return (
     <Card className="w-full h-[500px] bg-black/[0.96] relative overflow-hidden border-green-700 green-glow-border">
       <Spotlight
-        className="-top-40 left-0 md:left-60 md:-top-20"
+        className="-top-40 left-0 md:left-60 md:-top-20 animate-spotlight"
         fill="white"
       />
       
@@ -18,10 +18,11 @@ export function SplineSceneBasic() {
             <span className="text-green-400">D</span>avid <span className="text-green-400">B</span>en
           </h1>
           <p className="mt-4 text-xl md:text-2xl text-neutral-300 max-w-lg mx-auto md:mx-0">
-            <span className="text-green-400">AI</span>-Powered <span className="text-green-400">FullStack Developer</span>
+            <span className="text-green-400">S</span>oftware <span className="text-green-400">Developer</span>
+
           </p>
           <p className="mt-6 text-md md:text-lg text-gray-500 tracking-wider">
-            NextJS | TypeScript | Tailwind | Supabase | Golang | PHP
+            Golang | Next.JS | Nest.JS | TypeScript | Docker | Supabase
           </p>
         </div>
 

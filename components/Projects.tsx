@@ -28,6 +28,12 @@ const projects: Project[] = [
     status: ProjectStatus.IN_PROGRESS,
     tech: ['PHP', 'Laravel', 'Postman', 'PostgreSQL'],
   },
+  {
+    title: 'API with NestJS',
+    description: 'Uma API usando o framework NestJS, criando um fluxo de autenticação completo com banco de dados e tokens JWT.',
+    status: ProjectStatus.IN_PROGRESS,
+    tech: ['NestJS', 'TypeScript', 'Prisma', 'PostgreSQL', 'JSON', 'JWT'],
+  },
 ];
 
 const getStatusClass = (status: ProjectStatus) => {

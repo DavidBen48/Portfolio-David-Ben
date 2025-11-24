@@ -3,14 +3,25 @@ import { TimelineItem, TimelineItemType } from '../types';
 
 const timelineData: TimelineItem[] = [
     {
-        type: TimelineItemType.EDUCATION,
-        title: 'Ciência da Computação',
-        institution: 'Faculdade Anhanguera',
-        period: '2025 - 2029',
+        type: TimelineItemType.EXPERIENCE,
+        title: 'Desenvolvedor e Programador Jr',
+        institution: 'Suporte Verde LTDA',
+        period: '11/2025 - Atual',
         description: [
-            'Matemática Computacional e Lógica com C e C++',
-            'Análise de Dados com Python e Modelagem de Dados SQL',
-            'Desenvolvimento Frontend (JS) e Backend (Java)',
+            'Programação: PHP, Javascript e Python',
+            'Realizar suporte nos códigos de sistemas das empresas que a Suporte Verde faz serviços',
+            'Fazer manutenção e melhorar a lógica dos códigos de projetos e/ou sistema da empresa',
+        ]
+    },
+    {
+        type: TimelineItemType.EXPERIENCE,
+        title: 'Analista de Banco de Dados - Estágio',
+        institution: 'E-Soft Sistemas LTDA',
+        period: '2021 – 2022',
+        description: [
+            'Análises de vendas com Python e Power BI',
+            'Tarefas CRUD usando Firebird',
+            'Gerenciamento de dados empresariais na nuvem',
         ]
     },
     {
@@ -25,17 +36,17 @@ const timelineData: TimelineItem[] = [
         ]
     },
     {
-        type: TimelineItemType.EXPERIENCE,
-        title: 'Analista de Banco de Dados - Estágio',
-        institution: 'E-Soft Sistemas LTDA',
-        period: '2021 – 2022',
+        type: TimelineItemType.EDUCATION,
+        title: 'Ciência da Computação',
+        institution: 'Faculdade Anhanguera',
+        period: '2025 - 2029',
         description: [
-            'Análises de vendas com Python e Power BI',
-            'Tarefas CRUD usando Firebird',
-            'Gerenciamento de dados empresariais na nuvem',
+            'Matemática Computacional e Lógica com C e C++',
+            'Análise de Dados com Python e Modelagem de Dados SQL',
+            'Desenvolvimento Frontend (JS) e Backend (Java)',
         ]
     }
-].reverse(); // Reverse to show most recent first
+];
 
 const SectionTitle: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <h2 className="text-3xl md:text-4xl font-bold mb-16 text-green-400 green-glow text-center">
