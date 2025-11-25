@@ -18,7 +18,7 @@ export function SplineSceneBasic() {
             <span className="text-green-400">D</span>avid <span className="text-green-400">B</span>en
           </h1>
           <p className="mt-4 text-xl md:text-2xl text-neutral-300 max-w-lg mx-auto md:mx-0">
-            <span className="text-green-400">S</span>oftware <span className="text-green-400">Developer</span>
+            <span className="text-green-400">F</span>ullStack <span className="text-green-400">Developer</span>
 
           </p>
           <p className="mt-6 text-md md:text-lg text-gray-500 tracking-wider">
